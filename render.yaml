@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: hermes-agent
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter # Ücretsiz plan kalıcı diski desteklemediği için en az Starter plan seçilmelidir
+    region: frankfurt # Size en yakın bölgeyi seçebilirsiniz
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false # Değeri Render Dashboard'dan güvenli şekilde gireceksiniz
+      - key: HERMES_STORAGE_DIR
+        value: /data/.hermes # Ajanın verilerini yazacağı kalıcı disk yolu
+      - key: PORT
+        value: "8080"
+    disk:
+      name: hermes-storage
+      mountPath: /data
+      sizeGB: 10 # Hafıza, skill'ler ve cron loglarının kaybolmaması için kalıcı disk
